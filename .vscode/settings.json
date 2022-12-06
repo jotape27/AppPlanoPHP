@@ -1,0 +1,55 @@
+{
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "server": "abul.db.elephantsql.com",
+            "port": 5432,
+            "driver": "PostgreSQL",
+            "name": "PLANO",
+            "database": "apgrsynx",
+            "username": "apgrsynx",
+            "password": "Feg9QwZGipsWx7MwTMPRsXwHIrcAROgd"
+        }
+    ]
+}
+// {
+// "workbench.colorTheme": "Dracula",
+// "editor.fontFamily": "Fira Code",
+// "workbench.iconTheme": "material-icon-theme",
+// "security.workspace.trust.untrustedFiles": "open",
+// "workbench.startupEditor": "newUntitledFile",
+// "editor.formatOnSave": true,
+// "editor.fontLigatures": true,
+// "editor.cursorSmoothCaretAnimation": true,
+// "editor.fontWeight": "normal",
+// "files.watcherExclude": {
+// "**/.git/objects/**": true,
+// "**/.git/subtree-cache/**": true,
+// "**/node_modules/*/**": true,
+// "**/.hg/store/**": true,
+// "**/vendor/*/**": true
+// },
+// "files.exclude": {
+// "**/.classpath": true,
+// "**/.project": true,
+// "**/.settings": true,
+// "**/.factorypath": true
+// },
+// //PHP
+// "php.validate.executablePath": "C:\\xampp\\php\\php.exe",
+// "php.suggest.basic": false,
+// "phpSniffer.run": "onType",
+// "[php]": {
+// "editor.defaultFormatter": "bmewburn.vscode-intelephense-client"
+// },
+// "workbench.statusBar.visible": false,
+// "git.confirmSync": false,
+// "git.autofetch": true,
+// "workbench.editorAssociations": {
+// "*.lzo": "default"
+// },
+// //SQL
+// "[sql]": {
+// "editor.defaultFormatter": "mtxr.sqltools"
+// }
+// }
