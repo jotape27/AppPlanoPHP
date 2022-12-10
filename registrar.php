@@ -13,8 +13,9 @@ if (isset($_POST['novo_nome']) && isset($_POST['novo_sobrenome']) && isset($_POS
     $novo_nome = trim($_POST['novo_nome']);
     $novo_sobrenome = trim($_POST['novo_sobrenome']);
     $novo_login = trim($_POST['novo_login']);
-    $novo_nascimento = trim($_POST['novo_nascimento']);
-    $novo_sexo = trim($_POST['novo_sexo']);
+    $data = str_replace("/" , "-" , $_POST['novo_nascimento']);
+    $novo_nascimento = date('Y-m-d' , strtotime($data));
+	$novo_sexo = trim($_POST['novo_sexo']);
     $novo_celular = trim($_POST['novo_celular']);
     $novo_email = trim($_POST['novo_email']);
     $nova_senha = trim($_POST['nova_senha']);
@@ -33,7 +34,7 @@ if (isset($_POST['novo_nome']) && isset($_POST['novo_sobrenome']) && isset($_POS
         $resposta["erro"] = "usuario ja cadastrado";
     } else {
         // se o usuário ainda não existe, inserimos ele no bd.
-        $consulta = $db_con->prepare("INSERT INTO usuarios VALUES(DEFAULT,'$novo_nome','$novo_sobrenome','$novo_login','$novo_sexo','$novo_nascimento','$token') RETURNING id");
+        $consulta = $db_con->prepare("INSERT INTO usuario VALUES(DEFAULT,'$novo_nome','$novo_sobrenome','$novo_login','$novo_sexo','$novo_nascimento','$token') RETURNING id");
 
         if ($consulta->execute()) {
             //
