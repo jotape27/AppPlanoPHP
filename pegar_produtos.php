@@ -16,6 +16,20 @@ require_once('autenticacao.php');
 
 // array for JSON resposta
 $resposta = array();
+$calendario = array(
+	1 => "Janeiro",
+    2 => "Fevereiro",
+    3 => "Março",
+	4 => "Abril",
+	5=> "Maio",
+	6 => "Junho",
+	7 => "Julho",
+	8 => "Agosto",
+	9 = "Setembro",
+	10 => "Outubro",
+	11 = > "Novembro",
+	12 => "Dezembro"
+);
 
 // verifica se o usuário conseguiu autenticar
 if(autenticar($db_con)) {
@@ -23,18 +37,25 @@ if(autenticar($db_con)) {
 	// Primeiro, verifica-se se todos os parametros foram enviados pelo cliente.
 	// limit - quantidade de produtos a ser entregues
 	// offset - indica a partir de qual produto começa a lista
-	if (isset($_GET['limit']) && isset($_GET['offset'])) {
+	if (isset($_GET['limit']) && isset($_GET['offset'])&& isset($_GET['mes'])) {
 	 
 		$limit = $_GET['limit'];
 		$offset = $_GET['offset'];
+		$mes = $_GET['mes'];
+		$mesAtual = date('m');
+		$mesPesquisado = $mesAtual - $mes; 
  
 		// Realiza uma consulta ao BD e obtem todos os produtos.
-		$consulta = $db_con->prepare("SELECT * FROM produtos LIMIT " . $limit . " OFFSET " . $offset);
+		$consulta = $db_con->prepare("SELECT gasto.id , gasto.valor , gasto.gasto, gasto.data FROM gasto 
+join usuario_tpgasto_tipo_gasto_usuario_gasto_planejamento td on (gasto.id = td.fk_gasto_id)
+join usuario on (usuario.id = td.fk_usuario_id)
+where usuario.cpf = '" . $login . "' and EXTRACT(MONTH FROM gasto.data) =" .$mesPesquisado. " LIMIT " . $limit . " OFFSET " . $offset);
 		if($consulta->execute()) {
 			// Caso existam produtos no BD, eles sao armazenados na 
 			// chave "produtos". O valor dessa chave e formado por um 
 			// array onde cada elemento e um produto.
-			$resposta["produtos"] = array();
+			$resposta["gastos"] = array();
+			$resposta["mesPesquisado"] = $calendario[$mesPesquisado];
 			$resposta["sucesso"] = 1;
 
 			if ($consulta->rowCount() > 0) {
@@ -48,13 +69,14 @@ if(autenticar($db_con)) {
 					// o seleciona. Esse tipo de estrategia poupa banda de rede, uma vez 
 					// os detalhes de um produto somente serao transferidos ao cliente 
 					// em caso de real interesse.
-					$produto = array();
-					$produto["id"] = $linha["id"];
-					$produto["nome"] = $linha["nome"];
-					$produto["preco"] = $linha["preco"];
+					$gasto = array();
+					$gasto["id"] = $linha["id"];
+					$gasto["valor"] = $linha["valor"];
+					$gasto["gasto"] = $linha["gasto"];
+					$gasto["data"] = $linha["data"];
 			 
 					// Adiciona o produto no array de produtos.
-					array_push($resposta["produtos"], $produto);
+					array_push($resposta["gastos"], $gasto);
 				}
 			}
 		}
