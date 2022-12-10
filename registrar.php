@@ -24,7 +24,7 @@ if (isset($_POST['novo_nome']) && isset($_POST['novo_sobrenome']) && isset($_POS
     $token = password_hash($nova_senha, PASSWORD_DEFAULT);
     // antes de registrar o novo usuário, verificamos se ele já
     // não existe.
-    $consulta_usuario_existe = $db_con->prepare("SELECT cpf FROM usuario WHERE cpf ='$novo_cpf'");
+    $consulta_usuario_existe = $db_con->prepare("SELECT cpf FROM usuario WHERE cpf ='$novo_login'");
     $consulta_usuario_existe->execute();
     if ($consulta_usuario_existe->rowCount() > 0) {
         // se já existe um usuario para login
