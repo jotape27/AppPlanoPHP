@@ -18,7 +18,9 @@ if (isset($_POST['novo_nome']) && isset($_POST['novo_sobrenome']) && isset($_POS
 	$novo_sexo = trim($_POST['novo_sexo']);
     $novo_celular = trim($_POST['novo_celular']);
     $novo_email = trim($_POST['novo_email']);
+    // $novo_perfil = trim($_POST['novo_perfil']);
     $nova_senha = trim($_POST['nova_senha']);
+
     // o bd não armazena diretamente a senha do usuário, mas sim
     // um código hash que é gerado a partir da senha.
     $token = password_hash($nova_senha, PASSWORD_DEFAULT);

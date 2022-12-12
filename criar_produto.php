@@ -23,12 +23,13 @@ if (autenticar($db_con)) {
     // preco - preco do produto
     // descricao - descricao do produto
     // img - imagem do produto
-    if (isset($_POST['valor']) && isset($_POST['gasto']) && isset($_POST['tipogasto'])) {
+    if (isset($_POST['valor']) && isset($_POST['nome']) && isset($_POST['categoria']) && isset($_POST['data'])) {
 
         // Aqui sao obtidos os parametros
-        $nome = $_POST['gasto'];
-        $tipo = $_POST['tipogasto'];
+        $nome = $_POST['nome'];
+        $tipo = $_POST['categoria'];
         $valor = $_POST['valor'];
+        $data = $_POST['data'];
 
         // Para a imagem do produto, primeiramente se determina qual o tipo de imagem.
         // Isso e feito atraves da obtencao da extensao do arquivo, localizada na parte
@@ -52,7 +53,13 @@ if (autenticar($db_con)) {
         // A proxima linha insere um novo produto no BD.
         // A variavel consulta indica se a insercao foi feita corretamente ou nao.
 
-        $data = date('Y-m-d');
+        //$data = date('Y-m-d');
+
+
+        $consulta3 = $db_con->prepare("SELECT id FROM usuario WHERE cpf = $login");
+        $consulta3->execute();
+        $linha = $consulta3->fetch(PDO::FETCH_ASSOC);
+        $id_user = $linha['id'];
 
         $consulta = $db_con->prepare("INSERT INTO gasto (valor, gasto, data) VALUES('$valor', '$nome', '$data') RETURNING id;");
         if ($consulta->execute()) {
@@ -60,9 +67,10 @@ if (autenticar($db_con)) {
             if ($consulta->rowCount() > 0) {
                 $linha = $consulta->fetch(PDO::FETCH_ASSOC);
 
-                $id_gasto = $linha['id'];
+                
 
-                $consulta2 = $db_con->prepare("INSERT INTO usuario_tpgasto_tipo_gasto_usuario_gasto_planejamento VALUES ('$tipo',':id_user','$id_gasto');");
+                $id_gasto = $linha['id'];
+                $consulta2 = $db_con->prepare("INSERT INTO usuario_tpgasto_tipo_gasto_usuario_gasto_planejamento VALUES ('$tipo','$id_user','$id_gasto');");
 
                 if ($consulta2->execute()) {
                     // Se o produto foi inserido corretamente no servidor, o cliente
